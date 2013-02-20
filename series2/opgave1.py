@@ -127,8 +127,8 @@ for i in range(2, 51):
 			shortestPathRecursive(graph, 0, NODES - 1, [])
 		end = time.clock();
 		print "Recursive: " + str((end - start) / 5.0)
-	
-	
+
+		
 	print("Dijkstra found: " + str(dijkstra(graph, NODES-1)))
 	
 	gc.collect()
