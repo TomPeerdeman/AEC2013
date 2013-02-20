@@ -8,6 +8,7 @@ def generateGraph(NODES):
 	for i in range(0, NODES):
 		innerList = []
 		for j in range(0, NODES):
+			# move to myself? set to Zero
 			if(i == j):
 				innerList.append(0)
 			elif(random.randint(0, 1) == 0):
@@ -83,12 +84,12 @@ def dijkstra(graph, end):
 			if(graph[i][j] != -1):
 				# if a distance is known, add the distances, else use the found distance
 				if(distances[i] != -1):
-					test = graph[i][j] + distances[i]
+					testVal = graph[i][j] + distances[i]
 				else:
-					test = graph[i][j]
+					testVal = graph[i][j]
 				# update the distance if the found value is shorter
-				if(distances[j] == -1 or test < distances[j]):
-					distances[j] = test
+				if(distances[j] == -1 or testVal < distances[j]):
+					distances[j] = testVal
 	# return the distance to the given node
 	return distances[end]
 
