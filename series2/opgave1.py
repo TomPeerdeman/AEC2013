@@ -114,7 +114,7 @@ for i in range(2, 14):
 	NODES = i
 	graph = generateGraph(NODES)
 	printGraph(graph)
-	print 8
+	print i
 	print "Recursive found: " + str(shortestPathRecursive(graph, 0, NODES - 1, []))
 	print("Dijkstra found: " + str(dijkstra(graph, NODES-1)))
 	print "\n"
