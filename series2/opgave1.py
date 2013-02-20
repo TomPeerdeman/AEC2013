@@ -16,5 +16,11 @@ def generateGraph(NODES):
 		graph.append(innerList)
 		
 	return graph
+  
+# helper function, shows the matrix in an understandable way
+def printGraph(graph):
+  rows = len(graph)
+  for i in range(0, rows):
+    print(graph[i])
 	
-generateGraph(10)
+printGraph(generateGraph(10))
