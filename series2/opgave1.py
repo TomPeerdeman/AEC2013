@@ -8,7 +8,9 @@ def generateGraph(NODES):
 	for i in range(0, NODES):
 		innerList = []
 		for j in range(0, NODES):
-			if(random.randint(0, 1) == 0):
+			if(i == j):
+				innerList.append(0)
+			elif(random.randint(0, 1) == 0):
 				innerList.append(random.randint(1, 100))
 			else:
 				innerList.append(-1);
@@ -64,8 +66,31 @@ def shortestPathRecursive(graph, startnode, endnode, visited):
 	
 	# No path to endnode found trough this node
 	return -1, visited
-	
-NODES = 13
+
+# Dijkstra algorithm, to find the shortest path between two given nodes.
+def dijkstra(graph, end):
+	nodes = len(graph)
+	distances = []
+	# initialize, no distances known yet
+	for i in range(0, nodes):
+		distances.append(-1)
+	for i in range(0, nodes):
+		for j in range(0, nodes):
+			# we can only change if the vertex exists
+			if(graph[i][j] != -1):
+				# if a distance is known, add the distances, else use the found distance
+				if(distances[i] != -1):
+					test = graph[i][j] + distances[i]
+				else:
+					test = graph[i][j]
+				# update the distance if the found value is shorter
+				if(distances[j] == -1 or test < distances[j]):
+					distances[j] = test
+	# return the distance to the given node
+	return distances[end]
+
+NODES = 10
 graph = generateGraph(NODES)
 printGraph(graph)
-print shortestPathRecursive(graph, 0, NODES - 1, [])
+print "Recursive found: " + str(shortestPathRecursive(graph, 0, NODES - 1, []))
+print("Dijkstra found: " + str(dijkstra(graph, NODES-1)))
