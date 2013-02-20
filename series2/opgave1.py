@@ -48,7 +48,10 @@ def shortestPathRecursive(graph, startnode, endnode, visited):
 			if(node == endnode):
 				# We have found the end node trough startnode, add the endnode to the path and return the path
 				visited.append(endnode)
-				return cost, visited
+				if(cost < lowcost):
+					# A direct path to the endnode is found and it's better than the ones we might have already found
+					lowcost = cost
+					lowvisited = visited
 			else:
 				# Check for a path from node to the endnode. 
 				# Copy the visited list so the current visited list isn't overwritten
@@ -89,8 +92,11 @@ def dijkstra(graph, end):
 	# return the distance to the given node
 	return distances[end]
 
-NODES = 10
-graph = generateGraph(NODES)
-printGraph(graph)
-print "Recursive found: " + str(shortestPathRecursive(graph, 0, NODES - 1, []))
-print("Dijkstra found: " + str(dijkstra(graph, NODES-1)))
+for i in range(2, 14):
+	NODES = i
+	graph = generateGraph(NODES)
+	printGraph(graph)
+	print i
+	print "Recursive found: " + str(shortestPathRecursive(graph, 0, NODES - 1, []))
+	print("Dijkstra found: " + str(dijkstra(graph, NODES-1)))
+	print "\n"
