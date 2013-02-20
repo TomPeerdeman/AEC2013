@@ -21,7 +21,7 @@ def generateGraph(NODES):
 		graph.append(innerList)
 		
 	return graph
-  
+	
 # helper function, shows the matrix in an understandable way
 def printGraph(graph):
 	rows = len(graph)
@@ -73,6 +73,14 @@ def shortestPathRecursive(graph, startnode, endnode, visited):
 	# No path to endnode found trough this node
 	return -1, visited
 
+def getMinIndex(heap):
+	length = len(heap)
+	index = 0
+	for i in range(1,length):
+		if(heap[i][1] < heap[index][1]):
+			index = i
+	return index
+
 # Dijkstra algorithm, to find the shortest path between two given nodes.
 def dijkstra(graph, end):
 	nodes = len(graph)
@@ -80,19 +88,28 @@ def dijkstra(graph, end):
 	# initialize, no distances known yet
 	for i in range(0, nodes):
 		distances.append(-1)
-	for i in range(0, nodes):
-		for j in range(0, nodes):
-			# we can only change if the vertex exists
-			if(graph[i][j] != -1):
-				# if a distance is known, add the distances, else use the found distance
-				if(distances[i] != -1):
-					testVal = graph[i][j] + distances[i]
-				else:
-					testVal = graph[i][j]
-				# update the distance if the found value is shorter
-				if(distances[j] == -1 or testVal < distances[j]):
-					distances[j] = testVal
-	# return the distance to the given node
+	# create an empty heap
+	heap = []
+	# add the first node to the heap, the start node.
+	# A,B represents from start to A, with distance B
+	heap.append([0,0])
+	# dont stop until all edges have been looked at
+	while not len(heap) == 0:
+		# get the lowest weight value to move to a new node
+		index = getMinIndex(heap)
+		# apply the found index to get the right node
+		node = heap.pop(index)
+		# no distance found for this location yet?
+		if distances[node[0]] == -1:
+			# set best distance
+			distances[node[0]] = node[1]
+			# walk past all nodes
+			for i in range(nodes):
+				# if i am not myself, continue
+				if i != node[0]:
+					# if a valid move between nodes is found, add it to the heap
+					if graph[node[0]][i] >= 0:
+						heap.append([i,node[1]+graph[node[0]][i]])
 	return distances[end]
 
 for i in range(2, 51):
