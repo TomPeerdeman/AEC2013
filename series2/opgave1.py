@@ -1,4 +1,6 @@
 import random
+import time
+import gc
 
 def generateGraph(NODES):
 	graph = []
@@ -93,11 +95,30 @@ def dijkstra(graph, end):
 	# return the distance to the given node
 	return distances[end]
 
-for i in range(2, 14):
+for i in range(2, 51):
 	NODES = i
 	graph = generateGraph(NODES)
-	printGraph(graph)
+	
 	print i
-	print "Recursive found: " + str(shortestPathRecursive(graph, 0, NODES - 1, []))
+	if(i <= 12):
+		printGraph(graph)
+		print "Recursive found: " + str(shortestPathRecursive(graph, 0, NODES - 1, []))
+		
+		gc.collect()
+		start = time.clock();
+		for j in range(0, 5):
+			shortestPathRecursive(graph, 0, NODES - 1, [])
+		end = time.clock();
+		print "Recursive: " + str((end - start) / 5.0)
+	
+	
 	print("Dijkstra found: " + str(dijkstra(graph, NODES-1)))
+	
+	gc.collect()
+	start = time.clock();
+	for j in range(0, 5):
+		dijkstra(graph, NODES - 1)
+	end = time.clock();
+	print "Dijkstra : " + str((end - start) / 5.0)
+	
 	print "\n"
