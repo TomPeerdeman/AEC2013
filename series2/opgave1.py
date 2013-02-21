@@ -82,7 +82,7 @@ def getMinIndex(heap):
 	return index
 
 # Dijkstra algorithm, to find the shortest path between two given nodes.
-def dijkstra(graph, end):
+def dijkstra(graph, begin, end):
 	nodes = len(graph)
 	distances = []
 	# initialize, no distances known yet
@@ -90,9 +90,9 @@ def dijkstra(graph, end):
 		distances.append(-1)
 	# create an empty heap
 	heap = []
-	# add the first node to the heap, the start node.
-	# A,B represents from start to A, with distance B
-	heap.append([0,0])
+	# add the first node to the heap, the begin node.
+	# [A,B] represents from begin to A, with distance B
+	heap.append([begin,0])
 	# dont stop until all edges have been looked at
 	while not len(heap) == 0:
 		# get the lowest weight value to move to a new node
@@ -129,12 +129,12 @@ for i in range(2, 51):
 		print "Recursive: " + str((end - start) / 5.0)
 
 		
-	print("Dijkstra found: " + str(dijkstra(graph, NODES-1)))
+	print("Dijkstra found: " + str(dijkstra(graph, 0, NODES-1)))
 	
 	gc.collect()
 	start = time.clock();
 	for j in range(0, 5):
-		dijkstra(graph, NODES - 1)
+		dijkstra(graph, 0, NODES - 1)
 	end = time.clock();
 	print "Dijkstra : " + str((end - start) / 5.0)
 	
