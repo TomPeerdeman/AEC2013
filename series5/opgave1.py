@@ -36,6 +36,8 @@ def intToStr(num):
 	
 def encrypt(msg, e, n):
 	M = strToInt(msg);
+	if(M > n):
+	  print "\nNumber of bits of the message\nexceed the number of bits that\nhold the multiple of the primes,\nexpect wrong output\n"
 	print "Numberified: " + str(M);
 	print "Back check: " + str((intToStr(M) == msg));
 	
@@ -50,8 +52,8 @@ def decrypt(C, d, n):
 
 random.seed(1);
 
-p = 991;
-q = 4447;
+p = 9997954933;
+q = 9997954969;
 
 print "p: " + str(p) + " q: " + str(q);
 
@@ -67,7 +69,7 @@ print "e: " + str(e) + " d: " + str(d);
 # destroy p, q and phi
 p = q = phi = 0;
 
-msg = "Hi";
+msg = "Hi there1";
 print "Message: " + msg;
 
 C = encrypt(msg, e, n);
