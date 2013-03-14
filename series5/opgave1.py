@@ -37,7 +37,7 @@ def intToStr(num):
 def encrypt(msg, e, n):
 	M = strToInt(msg);
 	if(M > n):
-	  print "\nNumber of bits of the message\nexceed the number of bits that\nhold the multiple of the primes,\nexpect wrong output\n"
+		print "\nNumber of bits of the message\nexceed the number of bits that\nhold the multiple of the primes,\nexpect wrong output\n"
 	print "Numberified: " + str(M);
 	print "Back check: " + str((intToStr(M) == msg));
 	
