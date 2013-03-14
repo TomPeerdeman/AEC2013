@@ -69,7 +69,7 @@ print "e: " + str(e) + " d: " + str(d);
 # destroy p, q and phi
 p = q = phi = 0;
 
-msg = "Hi there1";
+msg = "Hi there";
 print "Message: " + msg;
 
 C = encrypt(msg, e, n);
