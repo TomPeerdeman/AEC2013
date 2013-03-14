@@ -42,13 +42,21 @@ def encrypt(msg, e, n):
 	print "Back check: " + str((intToStr(M) == msg));
 	
 	# c = M^e mod n
-	return pow(M, e, n);
+	return fastExpMod(M, e, n);
 
 def decrypt(C, d, n):
 	# m = C^d mod n
-	m = pow(C, d, n);
+	m = fastExpMod(C, d, n);
 	print m;
 	return intToStr(m);
+	
+def fastExpMod(x, exp, mod):
+	if exp == 1:
+		return x;
+	elif exp % 2 == 0:
+		return fastExpMod((x * x) % mod, exp / 2, mod) % mod;
+	else:
+		return (x * fastExpMod((x * x) % mod, (exp - 1) / 2, mod)) % mod;
 
 random.seed(1);
 
