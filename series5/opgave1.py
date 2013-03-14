@@ -12,9 +12,9 @@ def egcd(a, b):
 def calcKeys(phi):
 	while(True):
 		e = random.getrandbits(16) + 1;
-		(div, d1, d2) = egcd(phi, e);
-		if div == 1:
-			return (e, d1);	
+		(div, x, y) = egcd(e, phi);
+		if div == 1 and x > 0:
+			return (e, x);	
 			
 def strToInt(str):
 	num = 0;
@@ -43,13 +43,13 @@ def encrypt(msg, e, n):
 	return pow(M, e, n);
 
 def decrypt(C, d, n):
-	# m = C^d mod
+	# m = C^d mod n
 	m = pow(C, d, n);
 	print m;
 	return intToStr(m);
 
 random.seed(1);
-	
+
 p = 991;
 q = 4447;
 
