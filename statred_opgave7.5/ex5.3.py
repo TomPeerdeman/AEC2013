@@ -14,8 +14,8 @@ print(d.shape)
 # Dit kan wel eens h,w zijn
 w,h = a.shape
 Xl = []
-for x in range(0, w-25):
-	for y in range(0, h-25):
+for x in range(0, w-24):
+	for y in range(0, h-24):
 		Xl.append(np.reshape(a[x:(x + 25), y:(y + 25)], 625));
 X = np.array(Xl)
 X = np.transpose(X)
