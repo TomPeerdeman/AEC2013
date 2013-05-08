@@ -27,4 +27,12 @@ for x in range(0,shape(X)[1]):
 	m += X[x]
 M = (1.0/shape(X)[1])*m
 print M
+print shape(M)
 
+# calculate the sample covariance matrix
+e = np.zeros((625,625),dtype=float)
+for x in range(0,shape(X)[1]):
+	e += (X[x]*np.transpose(X[x]))
+S = (e - shape(X)[1]*M*np.transpose(M))/(shape(X)[1]-1)
+print S
+print shape(S)
