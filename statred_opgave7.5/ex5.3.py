@@ -22,17 +22,12 @@ for x in range(0, w-24):
 
 # empty vector for m
 m = np.zeros((625),dtype=float)
+e = np.zeros((625,625),dtype=float)
 # calc mean
 for x in range(0,shape(X)[1]):
 	m += X[x]
-M = (1.0/shape(X)[1])*m
-print M
-print shape(M)
-
-# calculate the sample covariance matrix
-e = np.zeros((625,625),dtype=float)
-for x in range(0,shape(X)[1]):
 	e += (X[x]*np.transpose(X[x]))
+M = (1.0/shape(X)[1])*m
 S = (e - shape(X)[1]*M*np.transpose(M))/(shape(X)[1]-1)
 print S
 print shape(S)
