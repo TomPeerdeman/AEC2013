@@ -20,14 +20,11 @@ for x in range(0, w-24):
 		X[i][:] = np.reshape(a[x:(x + 25), y:(y + 25)], 625)
 		i += 1
 
-print shape(X)	
-print len(X)
-
 # empty vector for m
 m = np.zeros((625),dtype=float)
 # calc mean
 for x in range(0,shape(X)[1]):
 	m += X[x]
+M = (1.0/shape(X)[1])*m
+print M
 
-print shape(m)
-print m
