@@ -1,31 +1,13 @@
 from pylab import *
 import numpy as np
 
-a = imread('data/trui.png')
-figure(1)
-subplot(1,2,1)
-imshow(a)
-d = a[100:126,100:126]
-subplot(1,2,2)
-imshow(d)
-savefig('figures/trui_with_detail.pdf',bbox_inches='tight')
+# Sample dimensions
+sh = 25
+sw = 25
 
-h, w = a.shape
-X = np.empty((53824, 625), dtype=float)
-
-for x in xrange(0, w-24):
-	for y in xrange(0, h-24):
-		X[:][x*25+y-1] = np.reshape(a[x:(x + 25), y:(y + 25)], 625)
-
-# empty vector for m
-m = np.zeros((625),dtype=float)
-e = np.zeros((625,625),dtype=float)
-# calc mean
-for x in X:
-	m += x
-	e += (np.outer(x, x))
-M = (1.0/shape(X)[0])*m
-S = (e - shape(X)[0]*np.outer(M, M))/(shape(X)[0]-1)
+def plotEigenVec(n, data):
+	subplot(2,3,n)
+	imshow(np.reshape(data, (sh, sw)))
 
 def eigensort(M):
 	d, U = np.linalg.eig(M)
@@ -34,8 +16,40 @@ def eigensort(M):
 	U = U[:, si]
 	return (d, U)
 
+a = imread('data/trui.png')
+
+h, w = a.shape
+samplesize = sh * sw
+N = (h - sh + 1) * (w - sw + 1)
+
+# Insert all the samples into the X matrix
+X = np.zeros((N, samplesize), dtype=float)
+for x in xrange(0, w - sw + 1):
+	for y in xrange(0, h- sh + 1):
+		X[:][x * sw + y - 1] = np.reshape(a[x:(x + sw), y:(y + sh)], samplesize)
+
+# Empty vector for m
+m = np.zeros((samplesize),dtype=float)
+e = np.zeros((samplesize,samplesize),dtype=float)
+# Calc mean and cov matrix
+for x in X:
+	m += x
+	e += (np.outer(x, x))
+M = (1.0 / N) * m
+S = (e - N * np.outer(M, M))/(N - 1)
+
+# Calculate the eigenvectors & eigenvalues, sort them by eigenvalues desc
 d, U = eigensort(S)
 
-figure(2)
-plot(range(10), d[:10])
+# Plot the eigenvalues
+figure(1)
+plot(range(len(d)), d)
 savefig('figures/eigenvalues.pdf')
+
+# Plot the first 6 eigenvectors
+figure(2)
+for i in xrange(6):
+	plotEigenVec(i, U[i])
+
+savefig('figures/eigenvectors.pdf')
+
