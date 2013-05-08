@@ -19,23 +19,23 @@ def eigensort(M):
 
 # Create a reconstruction from a detail of the image
 def plotReconstruction(k, imgDetail, M, U):
-	x = np.reshape(imgDetail, imgDetail.size)
+	x = np.reshape(imgDetail, samplesize)
 	y = np.dot(np.transpose(U), x - M)
 	xapprox = np.dot(U[:,:k], y[:k]) + M
 
 	plt.subplot(1,2,1, title='Original')
 	imshow(imgDetail)
 	plt.subplot(1,2,2, title='Reconstruction')
-	imshow(np.reshape(xapprox, imgDetail.shape))
+	imshow(np.reshape(xapprox, (sh, sw)))
 
 # Search for the k main eigenvalues
 def getk(d):
 	total = np.sum(d)
 	ktotal = 0.0
-	k = 0.0
-	while (ktotal / total) < 0.95:
+	k = 0
+	while (ktotal / total) < 0.99:
 		ktotal += d[k]
-		k += 1.0
+		k += 1
 	return k
 
 print "Loading image..."
