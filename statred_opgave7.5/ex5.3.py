@@ -1,3 +1,12 @@
+#
+# Description:
+# This program contains an example programe using Principal Component Analysis.
+# The program loads an image and searches for the most important
+# eigenvectors that build up the image.
+#
+# Authors : Tom Peerdeman & Rene Aparicio Saez
+# Stud nrs: 10266186 & 10214054
+#
 from pylab import *
 import numpy as np
 
