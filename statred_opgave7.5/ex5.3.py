@@ -9,12 +9,30 @@ def plotEigenVec(n, data):
 	subplot(2,3,n)
 	imshow(np.reshape(data, (sh, sw)))
 
+# Original code found from 'Handout_5_PCA.pdf' page 4
 def eigensort(M):
 	d, U = np.linalg.eig(M)
 	si = np.argsort(d)[-1::-1]
 	d = d[si]
 	U = U[:, si]
 	return (d, U)
+
+# Create a reconstruction from a detail of the image
+def plotReconstruction(k, imgDetail, M, U):
+	x = imgDetail.reshape(imgDetail.size,)
+	y = np.dot(np.transpose(U), x - M)
+	kX = np.dot(U[:,:k], y[:k]) + M
+	imshow(kX.reshape(imgDetail.shape))
+
+# Search for the k main eigenvalues
+def getk(d):
+	total = np.sum(d)
+	ktotal = 0.0
+	k = 0.0
+	while (ktotal / total) < 0.95:
+		ktotal += d[k]
+		k += 1.0
+	return k
 
 print "Loading image..."
 a = imread('data/trui.png')
@@ -57,6 +75,13 @@ for i in xrange(6):
 	plotEigenVec(i, U[i])
 
 savefig('figures/eigenvectors.pdf')
+
+print "Searching for k main eigenvectors..."
+k = getk(d)
+print "Reconstructing the image detail from location (50;175) to (75;200)..."
+figure(3).suptitle('Reconstruction')
+plotReconstruction(k, a[50:75, 175:200], M, U)
+savefig('figures/k_reconstruction.pdf')
 
 print "Done"
 
