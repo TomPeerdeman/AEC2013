@@ -19,10 +19,14 @@ def eigensort(M):
 
 # Create a reconstruction from a detail of the image
 def plotReconstruction(k, imgDetail, M, U):
-	x = imgDetail.reshape(imgDetail.size,)
+	x = np.reshape(imgDetail, imgDetail.size)
 	y = np.dot(np.transpose(U), x - M)
-	kX = np.dot(U[:,:k], y[:k]) + M
-	imshow(kX.reshape(imgDetail.shape))
+	xapprox = np.dot(U[:,:k], y[:k]) + M
+
+	plt.subplot(1,2,1, title='Original')
+	imshow(imgDetail)
+	plt.subplot(1,2,2, title='Reconstruction')
+	imshow(np.reshape(xapprox, imgDetail.shape))
 
 # Search for the k main eigenvalues
 def getk(d):
@@ -36,6 +40,9 @@ def getk(d):
 
 print "Loading image..."
 a = imread('data/trui.png')
+
+# Save all images in grayscale
+gray()
 
 h, w = a.shape
 samplesize = sh * sw
@@ -78,7 +85,9 @@ savefig('figures/eigenvectors.pdf')
 
 print "Searching for k main eigenvectors..."
 k = getk(d)
-print "Reconstructing the image detail from location (50;175) to (75;200)..."
+print "\tFound k=" + str(k)
+
+print "Reconstructing the image detail from (50,175) to (75,200)..."
 figure(3).suptitle('Reconstruction')
 plotReconstruction(k, a[50:75, 175:200], M, U)
 savefig('figures/k_reconstruction.pdf')
