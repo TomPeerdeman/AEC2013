@@ -19,4 +19,12 @@ for x in range(0, w-24):
 		Xl.append(np.reshape(a[x:(x + 25), y:(y + 25)], 625));
 X = np.array(Xl)
 X = np.transpose(X)
-print shape(X)	
+print shape(X)
+print len(X)
+
+# empty vector for m
+m = np.zeros(shape=(shape(X)[0],1))
+# calc mean
+for x in range(0,shape(X)[1]):
+	# error, de vector die hij wil toevoegen is van andere vorm?
+	m += np.transpose(X[:,x])
