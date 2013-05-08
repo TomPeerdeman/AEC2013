@@ -29,5 +29,20 @@ for x in range(0,shape(X)[1]):
 	e += (X[x]*np.transpose(X[x]))
 M = (1.0/shape(X)[1])*m
 S = (e - shape(X)[1]*M*np.transpose(M))/(shape(X)[1]-1)
-print S
 print shape(S)
+
+def eigensort(M):
+	d, U = eig(M)
+	si = argsort(d)[-1::-1]
+	d = d[si]
+	U = U[:, si]
+	return (d, U)
+
+d, U = eigensort(S)
+print shape(d)
+print shape(U)
+print d
+figure(2)
+#bar(range(10), d[:10])
+plot(range(10), d[:10])
+savefig('figures/eigen.pdf')
