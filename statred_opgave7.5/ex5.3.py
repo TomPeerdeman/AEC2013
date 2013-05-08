@@ -5,6 +5,7 @@ import numpy as np
 sh = 25
 sw = 25
 
+# Plot an eigenvector image
 def plotEigenVec(n, data):
 	subplot(2,3,n)
 	imshow(np.reshape(data, (sh, sw)))
@@ -83,10 +84,12 @@ for i in xrange(6):
 
 savefig('figures/eigenvectors.pdf')
 
+# Search the number of eigenvalues that matter the most
 print "Searching for k main eigenvectors..."
 k = getk(d)
 print "\tFound k=" + str(k)
 
+# reconstruct a piece of the image only using the most important eigenvectors
 print "Reconstructing the image detail from (50,175) to (75,200)..."
 figure(3).suptitle('Reconstruction')
 plotReconstruction(k, a[50:75, 175:200], M, U)
