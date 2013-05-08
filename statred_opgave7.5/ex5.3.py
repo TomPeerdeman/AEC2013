@@ -13,18 +13,21 @@ print(d.shape)
 
 # Dit kan wel eens h,w zijn
 w,h = a.shape
-Xl = []
+X = np.zeros((53824, 625), dtype=float)
+i = 0
 for x in range(0, w-24):
 	for y in range(0, h-24):
-		Xl.append(np.reshape(a[x:(x + 25), y:(y + 25)], 625));
-X = np.array(Xl)
-X = np.transpose(X)
-print shape(X)
+		X[i][:] = np.reshape(a[x:(x + 25), y:(y + 25)], 625)
+		i += 1
+
+print shape(X)	
 print len(X)
 
 # empty vector for m
-m = np.zeros(shape=(shape(X)[0],1))
+m = np.zeros((625),dtype=float)
 # calc mean
 for x in range(0,shape(X)[1]):
-	# error, de vector die hij wil toevoegen is van andere vorm?
-	m += np.transpose(X[:,x])
+	m += X[x]
+
+print shape(m)
+print m
