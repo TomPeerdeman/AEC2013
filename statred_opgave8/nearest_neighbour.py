@@ -13,8 +13,8 @@ def cnvt(s):
 		return tab[s]
 	else:
 		return -1.0
-		
-XC = loadtxt('data/iris.data', delimiter=',', dtype=float, converters={4: cnvt})
+
+XC = loadtxt('data/iris.data', delimiter='  ', dtype=float, converters={4: cnvt})
 
 ind = arange(150) # indices into the dataset
 ind = permutation(ind) # random permutation
@@ -52,4 +52,4 @@ for i in range(4):
 		scatter(XC[T,i], XC[T,j], s=30, marker='+',
 						edgecolor=color[c.astype(int)-1])
 
-savefig(figures/nnbtest.pdf)
+savefig('figures/nnbtest.pdf')
