@@ -1,4 +1,4 @@
-from pylab import tile, sum, argmin, array, zeros, argmax, amax
+from pylab import tile, sum, argmin, array, argmax, amax
 from collections import Counter
 
 class NNbk:
@@ -19,13 +19,14 @@ class NNbk:
 		d = self.X - tile(x.reshape(self.n,1), self.N)
 		
 		# Occurrence of a class
-		occ = zeros(self.nc);
+		occd = {x: 0 for x in self.cnames}
+
 		for i in range(k):
 			dsq = sum(d*d,0)
 			minindex = argmin(dsq)
-			occ[self.c[minindex]] += 1
+			occd[self.c[minindex]] += 1
 			# Prevent next iter giving this index again
 			d[:, minindex] = self.max + 1
 
 		# Return the name of the class that occurred most
-		return self.cnames[argmax(occ)];
+		return self.cnames[argmax(occd)]
