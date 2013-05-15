@@ -1,5 +1,6 @@
 from pylab import tile, sum, argmin, array, argmax, amax
 from collections import Counter
+import operator
 
 class NNbk:
 	def __init__(self, X, c):
@@ -8,8 +9,6 @@ class NNbk:
 		self.c = c
 
 		cs = Counter(c).items();
-		# Count the number of classes
-		self.nc = len(cs)
 		# Extract the names of the classes
 		self.cnames = zip(*cs)[0]
 		# Calculate max value of the 2d array
@@ -20,7 +19,6 @@ class NNbk:
 		
 		# Occurrence of a class
 		occd = {x: 0 for x in self.cnames}
-
 		for i in range(k):
 			dsq = sum(d*d,0)
 			minindex = argmin(dsq)
@@ -29,4 +27,4 @@ class NNbk:
 			d[:, minindex] = self.max + 1
 
 		# Return the name of the class that occurred most
-		return self.cnames[argmax(occd)]
+		return max(occd.iteritems(), key=operator.itemgetter(1))[0]
