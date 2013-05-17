@@ -3,6 +3,8 @@ from scipy.stats import norm
 import operator
 import numpy as np
 
+# Original source:
+# http://stackoverflow.com/questions/15120662/compute-probability-over-a-multivariate-normal
 def multivariate_pdf(vector, mean, cov):
 	quadratic_form = np.dot(np.dot(vector-mean,np.linalg.inv(cov)),np.transpose(vector-mean))
 	return np.exp(-.5 * quadratic_form)/ (2*np.pi * np.linalg.det(cov))
