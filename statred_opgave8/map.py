@@ -19,7 +19,7 @@ class MAP:
 		cond = zeros(self.N)
 		for i in range(0, 3):
 			cond = cond + 1.0
-			indices = where(self.c==cond)
+			indices = where(c==cond)
 			# Xa bevat alle elementen uit X waar de klasse gelijk van is aan i + 1.0
 			Xa = [X[:,b] for b in indices]
 			# Bovenstaande pakt de xjes in een extra array, dit willen we niet
@@ -32,9 +32,6 @@ class MAP:
 
 			# De kans op deze klasse
 			self.P[i] = (Na * 1.0) / self.N
-
-		print self.mu
-		print self.cov
 	
 	def classify(self, x):
 		y1 = multivariate_pdf(x, self.mu[0], self.cov[0])*self.P[0]
