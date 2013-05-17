@@ -13,8 +13,6 @@ class MAP:
 	def __init__(self, X, c):
 		self.n, self.N = X.shape
 		self.X = X
-		self.c = c
-		
 		self.mu = empty((3, self.n))
 		self.cov = empty((3, self.n, self.n))
 		self.P = empty(3)
