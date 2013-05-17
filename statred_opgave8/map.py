@@ -1,5 +1,11 @@
 from pylab import tile, sum, argmin, argmax, amax, mean, cov, zeros, where, empty, shape
+from scipy.stats import norm
 import operator
+import numpy as np
+
+def multivariate_pdf(vector, mean, cov):
+	quadratic_form = np.dot(np.dot(vector-mean,np.linalg.inv(cov)),np.transpose(vector-mean))
+	return np.exp(-.5 * quadratic_form)/ (2*np.pi * np.linalg.det(cov))
 
 class MAP:
 	def __init__(self, X, c):
@@ -27,5 +33,15 @@ class MAP:
 			# De kans op deze klasse
 			self.P[i] = (Na * 1.0) / self.N
 
+		print self.mu
+		print self.cov
+	
 	def classify(self, x):
-		return 0
+		y1 = multivariate_pdf(x, self.mu[0], self.cov[0])*self.P[0]
+		y2 = multivariate_pdf(x, self.mu[1], self.cov[1])*self.P[1]
+		y3 = multivariate_pdf(x, self.mu[2], self.cov[2])*self.P[2]
+		px = y1 + y2 + y3
+		P1x = y1 / px
+		P2x = y2 / px
+		P3x = y3 / px
+		return argmax([P1x, P2x, P3x]) + 1.0
