@@ -51,3 +51,4 @@ for i in range(4):
 						facecolor=[1,1,1]*len(T))
 		scatter(XC[T,i], XC[T,j], s=30, marker='+',
 						edgecolor=color[c.astype(int)-1])
+savefig('figures/map/map.pdf')
