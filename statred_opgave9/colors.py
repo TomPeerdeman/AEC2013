@@ -1,7 +1,9 @@
+from pylab import *
+
 # read the natural spectra and make it into a set for classification
 
 # the colors found in the dataset
-Colors = ['black', 'blue', 'brown', 'gray', 'green', 'orange', 'pink', 'red', 'violet', 'white', yellow]
+Colors = ['black', 'blue', 'brown', 'gray', 'green', 'orange', 'pink', 'red', 'violet', 'white', 'yellow']
 
 # does a line of text contain a color name?
 def containsColor( line ):
@@ -13,12 +15,12 @@ def containsColor( line ):
 # read the file and store spectra in matrix D (rows are the spectra)
 # and the classes in vector y
 
-fp = open("../data/natural400_700_5.asc")
+fp = open("data/natural400_700_5.asc")
 lines = fp.readlines()
 
 D = zeros((0,61))
 y = array([])
-for i in range(0,len(lines),2:
+for i in range(0,len(lines),2):
 	ind, c = containsColor(lines[i])
 	print ind
 	if ind is not None:
