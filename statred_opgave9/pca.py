@@ -19,5 +19,5 @@ def pca(X, k):
 	d, U = eigensort(S)
 	U = U[:,:k];
 
-	return np.transpose(np.dot(np.transpose(U), np.transpose(X)))
+	return U, np.transpose(np.dot(np.transpose(U), np.transpose(X)))
 
