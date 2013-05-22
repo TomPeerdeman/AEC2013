@@ -1,5 +1,7 @@
 from pylab import *
 from svmutil import *
+from StringIO import StringIO
+import sys
 import pca
 
 # read the natural spectra and make it into a set for classification
@@ -55,6 +57,9 @@ bestparam = svm_parameter()
 bestperc = 0.0
 bestC = 0.0
 bestG = 0.0
+bkp_stdout = sys.stdout
+sys.stdout = StringIO()
+
 # Do grid search
 for c in range(-3, 16, 2):
 	for gamma in range(-3, 16, 2):
@@ -100,8 +105,9 @@ for i in T:
 	predictedClass, notused1, notused2 = svm_predict([0], [X[i].tolist()], svm);
 	confusion[y[i], predictedClass[0]]+=1
 
+sys.stdout = bkp_stdout
+
 # Show the results to the user
-print '\n~ ~ ~ ~ ~ ~'
 print 'Best parameters: (c, gamma)'
 print str(2**bestC) + ", " + str(2**bestG)
 print 'Best v-fold accuracy'
