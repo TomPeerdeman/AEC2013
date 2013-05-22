@@ -60,15 +60,14 @@ for c in range(-3, 16, 2):
 		nv %= len(v)
 		
 		# TODO: mapping {values-->class} for indices in v[nv]
-		vals =[]
-		for i in range(0,len(v[nv])):
-			vals.append('{'+str(X[v[nv][0]])+':'+str(y[v[nv][0]])+'}')
+		vals = zeros((11,3))
+		for i in v[nv]:
+			vals[y[i]] = X[i]
+			#vals.append('{'+str(X[v[nv][i]])+':'+str(y[v[nv][i]])+'}')
 		print vals
 		mapping = vals
 		prob = svm_problem(classes, mapping)
 		param = svm_parameter('-c ' + str(2**c) + ' -g ' + str(2**gamma))
 		svm = svm_train(prob, param)
 
-
-print bestparams
 		# TODO: Test accuracy using svm_predict & save result?
