@@ -59,18 +59,26 @@ for c in range(-3, 16, 2):
 		nv += 1
 		nv %= len(v)
 		
-		vals = []
+		vals1 = []
+		vals2 = []
+		vals3 = []
 		for j in range(0, 11):
-			vals.append([])
+			vals1.append([])
+			vals2.append([])
+			vals3.append([])
 
 		for i in v[nv]:
-			print y
-			vals[int(y[i])].append(X[i].tolist())
-		print vals
-		quit()
-		mapping = vals
-		prob = svm_problem(classes, mapping)
+			vals1[int(y[i])].append(X[i][0].tolist())
+			vals2[int(y[i])].append(X[i][1].tolist())
+			vals3[int(y[i])].append(X[i][2].tolist())
+		
+		prob1 = svm_problem(classes, vals1)
+		prob2 = svm_problem(classes, vals2)
+		prob3 = svm_problem(classes, vals3)
 		param = svm_parameter('-c ' + str(2**c) + ' -g ' + str(2**gamma))
-		svm = svm_train(prob, param)
+		svm = svm_train(prob1, param)
+		svm = svm_train(prob2, param)
+		svm = svm_train(prob3, param)
+
 
 		# TODO: Test accuracy using svm_predict & save result?
