@@ -59,12 +59,15 @@ for c in range(-3, 16, 2):
 		nv += 1
 		nv %= len(v)
 		
-		# TODO: mapping {values-->class} for indices in v[nv]
-		vals = zeros((11,3))
+		vals = []
+		for j in range(0, 11):
+			vals.append([])
+
 		for i in v[nv]:
-			vals[y[i]] = X[i]
-			#vals.append('{'+str(X[v[nv][i]])+':'+str(y[v[nv][i]])+'}')
+			print y
+			vals[int(y[i])].append(X[i].tolist())
 		print vals
+		quit()
 		mapping = vals
 		prob = svm_problem(classes, mapping)
 		param = svm_parameter('-c ' + str(2**c) + ' -g ' + str(2**gamma))
