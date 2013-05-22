@@ -1,4 +1,5 @@
 from pylab import *
+import pca
 
 # read the natural spectra and make it into a set for classification
 
@@ -22,8 +23,39 @@ D = zeros((0,61))
 y = array([])
 for i in range(0,len(lines),2):
 	ind, c = containsColor(lines[i])
-	print ind
 	if ind is not None:
 		d = fromstring(lines[i+1],dtype=int,sep=" ")
 		D = append(D,array([d]),axis=0)
 		y = append(y,ind)
+
+U, X = pca.pca(D, 3)
+# TODO: X needs scaling to [0-1]
+
+classes = arange(len(Colors))
+
+ind = arange(len(X))
+ind = permutation(ind)
+# Learning set
+L = ind[0:110]
+# Testing set
+T = ind[109:]
+
+# Split L into 10 parts
+v = []
+for i in range(0, 10):
+	v.append(L[11 * i:11 * (i + 1)].tolist())
+
+quit()
+nv = 0
+# Do grid search
+for c in range(-3, 16, 2):
+	for gamma in range(-3, 16, 2):
+		nv += 1
+		nv %= len(v)
+		# TODO: mapping {values-->class} for indices in v[nv]
+		mapping = None
+		prob = svm_problem(classes, mapping)
+		param = svm_parameter('-c ' + str(2**c) + ' -g ' + str(2**gamma))
+		svm = svm_train(prob, param)
+
+		# TODO: Test accuracy using svm_predict & save result?
