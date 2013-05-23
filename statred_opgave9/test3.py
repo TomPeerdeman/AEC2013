@@ -31,26 +31,39 @@ for i in range(0,len(lines),2):
 		D = append(D,array([d]),axis=0)
 		y = append(y,ind)
 
-U, X = pca.pca(D, 3)
+U, X, M = pca.pca(D, 3)
+"""
+print U.shape
+print M.shape
+print (X[7,:]).shape
 
+appspect = np.dot(U, X[7,:].reshape(61,1)).T
+print appspect.shape
+print appspect
+plot(appspect.flatten())
+plot(D[7,:].flatten())
+#plot(M)
+show()
+quit()
+"""
 # Scale values to [0-1]
-minval = X.min()
-maxval = X.max()
+minval = np.amin(X, axis=0)
+maxval = np.amax(X, axis=0)
 X = (X - minval)/(maxval-minval)
 
 ind = arange(len(X))
 ind = permutation(ind)
 # Learning set
-L = ind[0:110]
+L = ind[0:140]
 # Testing set
-T = ind[109:]
+T = ind[140:]
 
 # Split L into 10 parts
 v = []
 vi = []
 for i in range(0, 10):
-	v.append(L[11 * i:11 * (i + 1)].tolist())
-	vi.append(L[0:(11*i)].tolist() + L[11*(i+1):].tolist())
+	v.append(L[21 * i:21 * (i + 1)].tolist())
+	vi.append(L[0:(21*i)].tolist() + L[21*(i+1):].tolist())
 
 #quit()
 nv = 0
