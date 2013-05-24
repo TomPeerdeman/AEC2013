@@ -19,6 +19,7 @@ def containsColor( line ):
 # read the file and store spectra in matrix D (rows are the spectra)
 # and the classes in vector y
 
+print "Reading Dataset"
 fp = open("data/natural400_700_5.asc")
 lines = fp.readlines()
 
@@ -31,30 +32,21 @@ for i in range(0,len(lines),2):
 		D = append(D,array([d]),axis=0)
 		y = append(y,ind)
 
+# Use PCA to reduce to 3 dimensions
 U, X, M = pca.pca(D, 3)
-"""
-print U.shape
-print M.shape
-print (X[7,:]).shape
 
-appspect = np.dot(U, X[7,:].reshape(61,1)).T
-print appspect.shape
-print appspect
-plot(appspect.flatten())
-plot(D[7,:].flatten())
-#plot(M)
-show()
-quit()
-"""
 # Scale values to [0-1]
 minval = np.amin(X, axis=0)
 maxval = np.amax(X, axis=0)
 X = (X - minval)/(maxval-minval)
 
+# randomly shuffle indices of the dataset X
 ind = arange(len(X))
 ind = permutation(ind)
+
 # Learning set
 L = ind[0:140]
+
 # Testing set
 T = ind[140:]
 
@@ -65,13 +57,14 @@ for i in range(0, 10):
 	v.append(L[21 * i:21 * (i + 1)].tolist())
 	vi.append(L[0:(21*i)].tolist() + L[21*(i+1):].tolist())
 
-#quit()
 nv = 0
-
-bestparam = svm_parameter()
 bestperc = 0.0
 bestC = 0.0
 bestG = 0.0
+
+print "Searching best parameters"
+
+# silence the svm output
 bkp_stdout = sys.stdout
 sys.stdout = StringIO()
 
@@ -102,11 +95,12 @@ for c in range(-3, 16, 2):
 				total += confusion[i,j]
 		perc = totalmiss / total * 100.0;
 		perc = 100.0 - perc;
+		
+		# Check if the accuracy is the best accuracy found yet
 		if bestperc < perc:
 			bestC = c
 			bestG = gamma
 			bestperc = perc
-			bestparam = param		
 
 # Test on testing set
 prob = svm_problem(y[L].tolist(), X[L].tolist())
@@ -118,13 +112,14 @@ for i in T:
 	predictedClass, notused1, notused2 = svm_predict([0], [X[i].tolist()], svm);
 	confusion[y[i], predictedClass[0]]+=1
 
+# allow output again
 sys.stdout = bkp_stdout
+print "\n~ ~ ~ ~ ~\n"
 
 # Show the results to the user
 print 'Best parameters: (c, gamma)'
 print str(2**bestC) + ", " + str(2**bestG)
-print 'Best v-fold accuracy'
-print str(bestperc) + '%'
+print 'Best v-fold accuracy: ' + str(bestperc) + '%'
 
 # Calculate the accuracy of the SVM
 totalmiss= 0.0;
@@ -136,7 +131,4 @@ for i in range(-1,len(Colors)):
 		total += confusion[i,j]
 perc = totalmiss / total * 100.0;
 perc = 100.0 - perc;
-
-print 'Testing set accuracy'
-print str(perc) + '%'
-
+print 'Testing set accuracy: ' + str(perc) + '%'
